@@ -1,1 +1,1 @@
-web: gunicorn uet_test.wsgi
+web: gunicorn uet_test.wsgi --log-file -
