@@ -15,7 +15,7 @@ def convert_Image_Name(Instance,Image_Name):
 
 class Login_Manager(models.Model):
     Email_Address=models.CharField(max_length= 100)
-    Passwords=models.CharField(max_length= 100)
+    Password=models.CharField(max_length= 100)
 
 class User(models.Model):
     User_ID=models.AutoField(primary_key=True)
@@ -48,7 +48,7 @@ class Test(models.Model):
     Description=models.TextField(max_length= 1000)
     Estimates_Testing_Time=models.TimeField()
     Test_Sample_Attributes=models.JSONField()
-    Test_Sample_Respectivley=models.JSONField()
+    # Test_Sample_Respectivley=models.JSONField()
     Price=models.IntegerField()
     Test_Times=models.IntegerField()
 
@@ -60,6 +60,7 @@ class Order(models.Model):
     Order_ID=models.AutoField(primary_key=True)
     User_ID=models.ForeignKey(User, on_delete=models.CASCADE)
     Test_ID=models.ForeignKey(Test, on_delete=models.CASCADE)
+    Test_Sample_Attributes=models.JSONField()
     OrderCompletionTime=models.DateTimeField()
     Status=models.TextField(max_length=15)
     Total_Bill=models.IntegerField()
