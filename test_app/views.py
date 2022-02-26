@@ -1,7 +1,7 @@
 from importlib.resources import contents
 from django.shortcuts import render
-from .models import Department, Test, User, Order, Result, Report_Admin, Login_Manager
-from .serializers import DepartmentSerializer, TestSerializer, UserSerializer, OrderSerializer, ResultSerializer, Report_AdminSerializer, Login_ManagerSerializer
+from .models import Department, Test, User, Order, Result, Login_Manager
+from .serializers import DepartmentSerializer, TestSerializer, UserSerializer, OrderSerializer, ResultSerializer, Login_ManagerSerializer
 from rest_framework.renderers import JSONRenderer
 from django.http import HttpResponse
 
@@ -116,28 +116,6 @@ def result(request):
         
     if request.method == 'POST':
         serializer = ResultSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-#  Report_Admin Table
-def getReport_Admin(request,pk):
-    report_Admin=Report_Admin.objects.get(Report_Admin_ID=pk)
-    serializer=Report_AdminSerializer(report_Admin)
-    json_data= JSONRenderer().render(serializer.data)
-    return HttpResponse(json_data, content_type='application/json')
-
-@api_view(['GET', 'POST'])
-def reportAdmin(request):
-    
-    if request.method == 'GET':
-        dept=Report_Admin.objects.all()
-        serializer=Report_AdminSerializer(dept, many=True, context={'request':request})
-        return Response(serializer.data)
-        
-    if request.method == 'POST':
-        serializer = Report_AdminSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)

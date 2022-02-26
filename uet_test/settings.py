@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-ii@z-ixn-10wbbcew2vs)j@stgaw81js&t5=kd+1k!_m_t7_d8
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['uet-test.herokuapp.com']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -124,12 +124,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 MEDIA_URL = '/media/'
-
-'''
-STATICFILES_DIRS=[
-    os.path.join(BASE_DIR,'static')
-]
-'''
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
