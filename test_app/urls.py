@@ -37,7 +37,7 @@ urlpatterns = [
     path('api/resultinfo/<int:pk>', views.getResult),
     path('api/result', views.result ),
 
-    path('api/accountinfo/<str:pk>', views.getLogin_Manager),
+    path('api/signup', views.SignUp),
     path('api/login', views.Login),
 
 ]

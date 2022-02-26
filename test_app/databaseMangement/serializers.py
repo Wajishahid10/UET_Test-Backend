@@ -1,7 +1,7 @@
 from dataclasses import fields
 from pyexpat import model
 from rest_framework import serializers
-from .models import Department, Test, User, Order, Result, Login_Manager
+from ..models import Department, Test, User, Order, Result, Login_Manager
 
 class DepartmentSerializer(serializers.ModelSerializer):
     class Meta:
