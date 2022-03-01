@@ -22,14 +22,26 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 urlpatterns = [
+    path('api/signup', views.SignUp),
+    path('api/login', views.Login),
+
+    path('api/userinfo/<int:pk>', views.getUser),
+    path('api/user', views.user ),
+
+    path('api/admininfo/<int:pk>', views.getAdmin),
+    path('api/admin', views.admin ),
+
     path('api/deptinfo/<int:pk>', views.getDepartment),
     path('api/department', views.department ),
 
     path('api/testinfo/<int:pk>', views.getTest),
     path('api/test', views.test ),
 
-    path('api/userinfo/<int:pk>', views.getUser),
-    path('api/user', views.user ),
+    path('api/testImageinfo/<int:pk>', views.getTestImages),
+    path('api/testImage', views.testImages ),
+
+    path('api/personAssignedinfo/<int:pk>', views.getPerson_Assigned),
+    path('api/personAssigned', views.person_Assigned ),
 
     path('api/orderinfo/<int:pk>', views.getOrder),
     path('api/order', views.order ),
@@ -37,8 +49,8 @@ urlpatterns = [
     path('api/resultinfo/<int:pk>', views.getResult),
     path('api/result', views.result ),
 
-    path('api/signup', views.SignUp),
-    path('api/login', views.Login),
+    path('api/completedOrderInfo/<int:pk>', views.getCompleted_Order),
+    path('api/completedOrder', views.Completed_Order ),
 
 ]
 

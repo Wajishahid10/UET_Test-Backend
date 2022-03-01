@@ -1,8 +1,8 @@
 from cmath import exp
 from importlib.resources import contents
 from django.shortcuts import render
-from .models import Department, Test, User, Order, Result, Login_Manager
-from .databaseMangement.serializers import DepartmentSerializer, TestSerializer, UserSerializer, OrderSerializer, ResultSerializer, Login_ManagerSerializer
+from .models import Admin, Department, PersonAssignedforOrder, Test, Test_Images, User, Order, Result, Login_Manager
+from .databaseMangement.serializers import AdminSerializer, CompletedOrderSerializer, DepartmentSerializer, PersonAssignedforOrderSerializer, Test_ImagesSerializer, TestSerializer, UserSerializer, OrderSerializer, ResultSerializer, Login_ManagerSerializer
 from rest_framework.renderers import JSONRenderer
 from django.http import HttpResponse
 
@@ -50,8 +50,8 @@ def getTest(request,pk):
 def test(request):
     
     if request.method == 'GET':
-        dept=Test.objects.all()
-        serializer=TestSerializer(dept, many=True, context={'request':request})
+        test=Test.objects.all()
+        serializer=TestSerializer(test, many=True, context={'request':request})
         return Response(serializer.data)
         
     if request.method == 'POST':
@@ -61,23 +61,45 @@ def test(request):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-# User Table
-def getUser(request,pk):
-    user=User.objects.get(User_ID=pk)
-    serializer=UserSerializer(user)
+# Test Images Table
+def getTestImages(request,pk):
+    testImage=Test_Images.objects.get(Test_ID=pk)
+    serializer=Test_ImagesSerializer(testImage)
     json_data= JSONRenderer().render(serializer.data)
     return HttpResponse(json_data, content_type='application/json')
 
 @api_view(['GET', 'POST'])
-def user(request):
+def testImages(request):
     
     if request.method == 'GET':
-        dept=User.objects.all()
-        serializer=UserSerializer(dept, many=True, context={'request':request})
+        testImages=Test_Images.objects.all()
+        serializer=Test_ImagesSerializer(testImages, many=True, context={'request':request})
         return Response(serializer.data)
         
     if request.method == 'POST':
-        serializer = UserSerializer(data=request.data)
+        serializer = Test_ImagesSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# Person Assigned Table
+def getPerson_Assigned(request,pk):
+    person=PersonAssignedforOrder.objects.get(Result_ID=pk)
+    serializer=PersonAssignedforOrderSerializer(person)
+    json_data= JSONRenderer().render(serializer.data)
+    return HttpResponse(json_data, content_type='application/json')
+
+@api_view(['GET', 'POST'])
+def person_Assigned(request):
+    
+    if request.method == 'GET':
+        dept=PersonAssignedforOrder.objects.all()
+        serializer=PersonAssignedforOrderSerializer(dept, many=True, context={'request':request})
+        return Response(serializer.data)
+        
+    if request.method == 'POST':
+        serializer = PersonAssignedforOrderSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -127,6 +149,30 @@ def result(request):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+# Completed_Orders Table
+def getCompleted_Order(request,pk):
+    admin=Admin.objects.get(Admin_ID=pk)
+    serializer=AdminSerializer(admin)
+    json_data= JSONRenderer().render(serializer.data)
+    return HttpResponse(json_data, content_type='application/json')
+
+@api_view(['GET', 'POST'])
+def Completed_Order(request):
+    
+    if request.method == 'GET':
+        dept=Completed_Order.objects.all()
+        serializer=CompletedOrderSerializer(dept, many=True, context={'request':request})
+        return Response(serializer.data)
+        
+    if request.method == 'POST':
+        serializer = CompletedOrderSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
 #  Login_Manager Table
 def getLogin_Manager(request,pk):
     login_Manager=Login_Manager.objects.get(Email_adress=pk)
@@ -173,5 +219,49 @@ def SignUp(request):
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             else:
                return Response(status=status.HTTP_208_ALREADY_REPORTED) 
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# User Table
+def getUser(request,pk):
+    user=User.objects.get(User_ID=pk)
+    serializer=UserSerializer(user)
+    json_data= JSONRenderer().render(serializer.data)
+    return HttpResponse(json_data, content_type='application/json')
+
+@api_view(['GET', 'POST'])
+def user(request):
+    
+    if request.method == 'GET':
+        dept=User.objects.all()
+        serializer=UserSerializer(dept, many=True, context={'request':request})
+        return Response(serializer.data)
+        
+    if request.method == 'POST':
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# Admin Table
+def getAdmin(request,pk):
+    admin=Admin.objects.get(Admin_ID=pk)
+    serializer=AdminSerializer(admin)
+    json_data= JSONRenderer().render(serializer.data)
+    return HttpResponse(json_data, content_type='application/json')
+
+@api_view(['GET', 'POST'])
+def admin(request):
+    
+    if request.method == 'GET':
+        dept=Admin.objects.all()
+        serializer=AdminSerializer(dept, many=True, context={'request':request})
+        return Response(serializer.data)
+        
+    if request.method == 'POST':
+        serializer = AdminSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
