@@ -14,16 +14,28 @@ class Login_Manager(models.Model):
     Account_Type=models.CharField(max_length= 7)
 
 class User(models.Model):
+    def convert_Image_Name(Instance,Image_Name):
+        extension=Image_Name.split('.')[-1]
+        uuidHex=uuid.uuid4().hex
+        return f'images/{uuidHex}.{extension}'
+
     User_ID=models.AutoField(primary_key=True)
     Name=models.CharField(max_length= 100)
+    Display_picture=models.ImageField(upload_to=convert_Image_Name)
     Company=models.CharField(max_length= 100)
     Contact_Number= models.CharField(max_length= 15)
     Address=models.CharField(max_length= 375)
     Email_Address=models.ForeignKey(Login_Manager, on_delete=models.CASCADE)
 
 class Admin(models.Model):
+    def convert_Image_Name(Instance,Image_Name):
+        extension=Image_Name.split('.')[-1]
+        uuidHex=uuid.uuid4().hex
+        return f'images/{uuidHex}.{extension}'
+
     Admin_ID=models.AutoField(primary_key=True)
     Name=models.CharField(max_length= 100)
+    Display_picture=models.ImageField(upload_to=convert_Image_Name)
     Role= models.CharField(max_length= 15)
     Contact_Number= models.CharField(max_length= 15)
     Address=models.CharField(max_length= 375)
