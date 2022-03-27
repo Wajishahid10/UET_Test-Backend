@@ -1,7 +1,7 @@
 from cmath import exp
 from importlib.resources import contents
 from django.shortcuts import render
-from .models import Admin, Department, PersonAssignedforOrder, Test, Test_Images, User, Order, Result, Login_Manager
+from .models import Admin, CompletedOrder, Department, PersonAssignedforOrder, Test, Test_Images, User, Order, Result, Login_Manager
 from .databaseMangement.serializers import AdminSerializer, CompletedOrderSerializer, DepartmentSerializer, PersonAssignedforOrderSerializer, Test_ImagesSerializer, TestSerializer, UserSerializer, OrderSerializer, ResultSerializer, Login_ManagerSerializer
 from rest_framework.renderers import JSONRenderer
 from django.http import HttpResponse
@@ -41,10 +41,13 @@ def department(request):
 
 # Test Table
 def getTest(request,pk):
-    test=Test.objects.get(Test_ID=pk)
-    serializer=TestSerializer(test)
-    json_data= JSONRenderer().render(serializer.data)
-    return HttpResponse(json_data, content_type='application/json')
+    try:
+        test=Test.objects.get(Test_ID=pk)
+        serializer=TestSerializer(test)
+        json_data= JSONRenderer().render(serializer.data)
+        return HttpResponse(json_data, content_type='application/json')
+    except Test.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
 
 @api_view(['GET', 'POST'])
 def test(request):
@@ -63,10 +66,13 @@ def test(request):
 
 # Test Images Table
 def getTestImages(request,pk):
-    testImage=Test_Images.objects.get(Test_ID=pk)
-    serializer=Test_ImagesSerializer(testImage)
-    json_data= JSONRenderer().render(serializer.data)
-    return HttpResponse(json_data, content_type='application/json')
+    try:
+        testImage=Test_Images.objects.get(Test_ID=pk)
+        serializer=Test_ImagesSerializer(testImage)
+        json_data= JSONRenderer().render(serializer.data)
+        return HttpResponse(json_data, content_type='application/json')
+    except Test_Images.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
 
 @api_view(['GET', 'POST'])
 def testImages(request):
@@ -85,10 +91,13 @@ def testImages(request):
 
 # Person Assigned Table
 def getPerson_Assigned(request,pk):
-    person=PersonAssignedforOrder.objects.get(Result_ID=pk)
-    serializer=PersonAssignedforOrderSerializer(person)
-    json_data= JSONRenderer().render(serializer.data)
-    return HttpResponse(json_data, content_type='application/json')
+    try:
+        person=PersonAssignedforOrder.objects.get(Result_ID=pk)
+        serializer=PersonAssignedforOrderSerializer(person)
+        json_data= JSONRenderer().render(serializer.data)
+        return HttpResponse(json_data, content_type='application/json')
+    except PersonAssignedforOrder.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
 
 @api_view(['GET', 'POST'])
 def person_Assigned(request):
@@ -107,10 +116,13 @@ def person_Assigned(request):
 
 # Order Table
 def getOrder(request,pk):
-    order=Order.objects.get(Order_ID=pk)
-    serializer=OrderSerializer(order)
-    json_data= JSONRenderer().render(serializer.data)
-    return HttpResponse(json_data, content_type='application/json')
+    try:
+        order=Order.objects.get(Order_ID=pk)
+        serializer=OrderSerializer(order)
+        json_data= JSONRenderer().render(serializer.data)
+        return HttpResponse(json_data, content_type='application/json')
+    except Order.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
 
 @api_view(['GET', 'POST'])
 def order(request):
@@ -129,10 +141,13 @@ def order(request):
 
 # Result Table
 def getResult(request,pk):
-    result=Result.objects.get(Result_ID=pk)
-    serializer=ResultSerializer(result)
-    json_data= JSONRenderer().render(serializer.data)
-    return HttpResponse(json_data, content_type='application/json')
+    try:
+        result=Result.objects.get(Result_ID=pk)
+        serializer=ResultSerializer(result)
+        json_data= JSONRenderer().render(serializer.data)
+        return HttpResponse(json_data, content_type='application/json')
+    except Result.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
 
 @api_view(['GET', 'POST'])
 def result(request):
@@ -151,10 +166,14 @@ def result(request):
 
 # Completed_Orders Table
 def getCompleted_Order(request,pk):
-    admin=Admin.objects.get(Admin_ID=pk)
-    serializer=AdminSerializer(admin)
-    json_data= JSONRenderer().render(serializer.data)
-    return HttpResponse(json_data, content_type='application/json')
+    try:
+        admin=CompletedOrder.objects.get(Order_ID=pk)
+        serializer=CompletedOrderSerializer(admin)
+        json_data= JSONRenderer().render(serializer.data)
+        return HttpResponse(json_data, content_type='application/json')
+    except CompletedOrder.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    
 
 @api_view(['GET', 'POST'])
 def Completed_Order(request):
@@ -174,11 +193,23 @@ def Completed_Order(request):
 
 
 #  Login_Manager Table
+def getAccountTypeFromEmail(request,email):
+    try:
+        login_Manager=Login_Manager.objects.get(Email_adress=email)
+        serializer=Login_ManagerSerializer(login_Manager)
+        json_data= JSONRenderer().render(serializer.data)
+        return HttpResponse(json_data, content_type='application/json')
+    except Login_Manager.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
 def getLogin_Manager(request,pk):
-    login_Manager=Login_Manager.objects.get(Email_adress=pk)
-    serializer=Login_ManagerSerializer(login_Manager)
-    json_data= JSONRenderer().render(serializer.data)
-    return HttpResponse(json_data, content_type='application/json')
+    try:
+        login_Manager=Login_Manager.objects.get(Email_adress=pk)
+        serializer=Login_ManagerSerializer(login_Manager)
+        json_data= JSONRenderer().render(serializer.data)
+        return HttpResponse(json_data, content_type='application/json')
+    except Login_Manager.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
 
 
 @api_view(['POST'])
@@ -223,10 +254,13 @@ def SignUp(request):
 
 # User Table
 def getUser(request,pk):
-    user=User.objects.get(User_ID=pk)
-    serializer=UserSerializer(user)
-    json_data= JSONRenderer().render(serializer.data)
-    return HttpResponse(json_data, content_type='application/json')
+    try:
+        user=User.objects.get(User_ID=pk)
+        serializer=UserSerializer(user)
+        json_data= JSONRenderer().render(serializer.data)
+        return HttpResponse(json_data, content_type='application/json')
+    except User.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
 
 @api_view(['GET', 'POST'])
 def user(request):
@@ -245,10 +279,13 @@ def user(request):
 
 # Admin Table
 def getAdmin(request,pk):
-    admin=Admin.objects.get(Admin_ID=pk)
-    serializer=AdminSerializer(admin)
-    json_data= JSONRenderer().render(serializer.data)
-    return HttpResponse(json_data, content_type='application/json')
+    try:
+        admin=Admin.objects.get(Admin_ID=pk)
+        serializer=AdminSerializer(admin)
+        json_data= JSONRenderer().render(serializer.data)
+        return HttpResponse(json_data, content_type='application/json')
+    except Admin.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
 
 @api_view(['GET', 'POST'])
 def admin(request):

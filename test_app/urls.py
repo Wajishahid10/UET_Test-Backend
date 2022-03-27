@@ -24,6 +24,7 @@ from django.conf import settings
 urlpatterns = [
     path('api/signup', views.SignUp),
     path('api/login', views.Login),
+    path('api/getTypeFromEmail/<string:mail>', views.getAccountTypeFromEmail),
 
     path('api/userinfo/<int:pk>', views.getUser),
     path('api/user', views.user ),
