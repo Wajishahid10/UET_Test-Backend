@@ -9,8 +9,10 @@ import uuid
 # Models here.
 
 class Login_Manager(models.Model):
+    LoginID=models.AutoField(primary_key=True)
     GoogleSiginUID=models.CharField(max_length= 50)
     Account_Type=models.CharField(max_length= 7)
+
 
 class User(models.Model):
     def convert_Image_Name(Instance,Image_Name):
@@ -18,13 +20,12 @@ class User(models.Model):
         uuidHex=uuid.uuid4().hex
         return f'images/{uuidHex}.{extension}'
 
-
-    User_ID=models.OneToOneField(
+    UserID=models.OneToOneField(
         Login_Manager,
         on_delete=models.CASCADE,
         primary_key=True,
     )
-    Name=models.CharField(max_length= 100)
+    userName=models.CharField(max_length= 100)
     Display_picture=models.ImageField(upload_to=convert_Image_Name)
     Company=models.CharField(max_length= 100)
     Contact_Number= models.CharField(max_length= 15)
@@ -32,19 +33,19 @@ class User(models.Model):
     Email_Address=models.CharField(max_length= 75)
     AccountCreated = models.DateTimeField(auto_now_add=True)
 
+
 class Admin(models.Model):
     def convert_Image_Name(Instance,Image_Name):
         extension=Image_Name.split('.')[-1]
         uuidHex=uuid.uuid4().hex
         return f'images/{uuidHex}.{extension}'
 
-
-    Admin_ID=models.OneToOneField(
+    AdminID=models.OneToOneField(
         Login_Manager,
         on_delete=models.CASCADE,
         primary_key=True,
     )
-    Name=models.CharField(max_length= 100)
+    adminName=models.CharField(max_length= 100)
     Display_picture=models.ImageField(upload_to=convert_Image_Name)
     Role= models.CharField(max_length= 15)
     Contact_Number= models.CharField(max_length= 15)
