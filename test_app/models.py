@@ -66,6 +66,7 @@ class Department(models.Model):
     Admin_ID=models.ForeignKey(Admin, on_delete=models.DO_NOTHING)
     Contact_Number_toDisplay= models.CharField(max_length= 15)
     Email_Address=models.CharField(max_length= 100)
+    DepartmentCreated = models.DateTimeField(auto_now_add=True)
     
 class Test(models.Model):
     Test_ID=models.AutoField(primary_key=True)
@@ -77,6 +78,7 @@ class Test(models.Model):
     # Test_Sample_Respectivley=models.JSONField()
     Price=models.IntegerField()
     Test_Counts=models.IntegerField()
+    TestCreated = models.DateTimeField(auto_now_add=True)
 
 class Test_Images(models.Model):
     def convert_Image_Name(Instance,Image_Name):
