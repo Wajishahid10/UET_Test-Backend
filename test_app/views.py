@@ -202,9 +202,9 @@ def getAccountTypeFromEmail(request,email):
     except Login_Manager.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
-def getLogin_Manager(request,pk):
+def getLogin_Manager(request,uid):
     try:
-        login_Manager=Login_Manager.objects.get(Email_adress=pk)
+        login_Manager=Login_Manager.objects.get(GoogleSiginUID=uid)
         serializer=Login_ManagerSerializer(login_Manager)
         json_data= JSONRenderer().render(serializer.data)
         return HttpResponse(json_data, content_type='application/json')
@@ -212,6 +212,7 @@ def getLogin_Manager(request,pk):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
 
+'''
 @api_view(['POST'])
 def Login(request):
     
@@ -227,10 +228,10 @@ def Login(request):
                     Response(status=status.HTTP_206_PARTIAL_CONTENT)
         except Login_Manager.DoesNotExist:
                 return Response(status=status.HTTP_404_NOT_FOUND)
-        '''
-        json_data= JSONRenderer().render(serializer.data)
-        return HttpResponse(json_data, content_type='application/json')
-        '''
+        
+  #      json_data= JSONRenderer().render(serializer.data)
+  #      return HttpResponse(json_data, content_type='application/json')
+        
 
 def isNew_eMail(email):
     try:
@@ -246,6 +247,50 @@ def SignUp(request):
         serializer = Login_ManagerSerializer(data=request.data)
         if serializer.is_valid():
             if(isNew_eMail(request.data["Email_Address"])):
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            else:
+               return Response(status=status.HTTP_208_ALREADY_REPORTED) 
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+'''
+
+def Login(request):
+    
+    if request.method == 'POST':
+        GoogleSiginUID=request.data["GoogleSiginUID"]
+        try:
+                loginUser = Login_Manager.objects.get(GoogleSiginUID=GoogleSiginUID)
+
+                if loginUser["Account_Type"]=="User":
+                    user = User.objects.get(User_ID=loginUser)
+                    serializer=UserSerializer(user)
+                    json_data= JSONRenderer().render(serializer.data)
+                    return Response(json_data, content_type='application/json')
+                else:
+                    admin = Admin.objects.get(Admin_ID=loginUser)
+                    serializer=AdminSerializer(admin)
+                    json_data= JSONRenderer().render(serializer.data)
+                    return Response(json_data, content_type='application/json')
+            
+
+        except Login_Manager.DoesNotExist:
+                return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+def isUserNew(uid):
+    try:
+        Login_Manager.objects.get(GoogleSiginUID=uid)
+        return False
+    except Login_Manager.DoesNotExist:
+        return True
+
+@api_view(['POST'])
+def SignUp(request):
+    
+    if request.method == 'POST':
+        serializer = Login_ManagerSerializer(data=request.data)
+        if serializer.is_valid():
+            if(isUserNew(request.data["GoogleSiginUID"])):
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             else:
@@ -283,7 +328,7 @@ def getAdmin(request,pk):
         admin=Admin.objects.get(Admin_ID=pk)
         serializer=AdminSerializer(admin)
         json_data= JSONRenderer().render(serializer.data)
-        return HttpResponse(json_data, content_type='application/json')
+        return Response(json_data, content_type='application/json')
     except Admin.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
