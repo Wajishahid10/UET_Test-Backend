@@ -9,8 +9,7 @@ import uuid
 # Models here.
 
 class Login_Manager(models.Model):
-    Email_Address=models.CharField(max_length= 100)
-    Password=models.CharField(max_length= 100)
+    GoogleSiginUID=models.CharField(max_length= 50)
     Account_Type=models.CharField(max_length= 7)
 
 class User(models.Model):
@@ -25,7 +24,7 @@ class User(models.Model):
     Company=models.CharField(max_length= 100)
     Contact_Number= models.CharField(max_length= 15)
     Address=models.CharField(max_length= 375)
-    Email_Address=models.ForeignKey(Login_Manager, on_delete=models.CASCADE)
+    Email_Address=models.CharField(max_length= 75)
 
 class Admin(models.Model):
     def convert_Image_Name(Instance,Image_Name):
@@ -39,7 +38,7 @@ class Admin(models.Model):
     Role= models.CharField(max_length= 15)
     Contact_Number= models.CharField(max_length= 15)
     Address=models.CharField(max_length= 375)
-    Email_Address=models.ForeignKey(Login_Manager, on_delete=models.CASCADE)
+    Email_Address=models.CharField(max_length= 75)
 
 AdminRoles_Dict={1:'Admin',2:'Chariman',3:'Instructor',4:'Lab Opertaor'}
 
