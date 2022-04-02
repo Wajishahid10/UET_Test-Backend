@@ -25,10 +25,10 @@ urlpatterns = [
     path('api/signup', views.SignUp),
     path('api/login', views.Login),
 
-    path('api/getLoginManagerFromUID/<str:uid>', views.getLogin_Manager),
+    path('api/getLoginManagerFromUID/<str:uid>/', views.getLogin_Manager),
     path('api/getTypeFromEmail/<str:mail>', views.getAccountTypeFromEmail),
 
-    path('api/userinfo/<int:pk>', views.getUser),
+    path('api/userinfo/<int:pk>/', views.getUser),
     path('api/user', views.user ),
 
     path('api/admininfo/<int:pk>', views.getAdmin),
