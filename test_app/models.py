@@ -26,7 +26,7 @@ class User(models.Model):
         primary_key=True,
     )
     userName=models.CharField(max_length= 100)
-    Display_picture=models.ImageField(upload_to=convert_Image_Name)
+    Display_Picture=models.ImageField(upload_to=convert_Image_Name)
     Company=models.CharField(max_length= 100)
     Contact_Number= models.CharField(max_length= 15)
     Address=models.CharField(max_length= 375)
@@ -46,7 +46,7 @@ class Admin(models.Model):
         primary_key=True,
     )
     adminName=models.CharField(max_length= 100)
-    Display_picture=models.ImageField(upload_to=convert_Image_Name)
+    Display_Picture=models.ImageField(upload_to=convert_Image_Name)
     Role= models.CharField(max_length= 15)
     Contact_Number= models.CharField(max_length= 15)
     Address=models.CharField(max_length= 375)
@@ -63,7 +63,7 @@ class Department(models.Model):
 
     Department_ID=models.AutoField(primary_key=True)
     Name=models.CharField(max_length= 100)
-    Display_picture=models.ImageField(upload_to=convert_Image_Name)
+    Display_Picture=models.ImageField(upload_to=convert_Image_Name)
     Admin_ID=models.ForeignKey(Admin, on_delete=models.DO_NOTHING)
     Contact_Number_toDisplay= models.CharField(max_length= 15)
     Email_Address=models.CharField(max_length= 100)
