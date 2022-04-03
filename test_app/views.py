@@ -202,12 +202,14 @@ def getAccountTypeFromEmail(request,email):
     except Login_Manager.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
+
+@api_view(['GET'])
 def getLogin_Manager(request,uid):
     try:
         login_Manager=Login_Manager.objects.get(GoogleSiginUID=uid)
         serializer=Login_ManagerSerializer(login_Manager)
         json_data= JSONRenderer().render(serializer.data)
-        return HttpResponse(json_data, content_type='application/json')
+        return Response(json_data, status=status.HTTP_302_FOUND, content_type='application/json')
     except Login_Manager.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
