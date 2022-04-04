@@ -15,10 +15,12 @@ class Login_Manager(models.Model):
 
 
 class User(models.Model):
+    '''
     def convert_Image_Name(Instance,Image_Name):
         extension=Image_Name.split('.')[-1]
         uuidHex=uuid.uuid4().hex
         return f'images/{uuidHex}.{extension}'
+    '''
 
     UserID=models.OneToOneField(
         Login_Manager,
@@ -26,7 +28,8 @@ class User(models.Model):
         primary_key=True,
     )
     userName=models.CharField(max_length= 100)
-    Display_Picture=models.ImageField(upload_to=convert_Image_Name)
+ #   Display_Picture_Url=models.ImageField(upload_to=convert_Image_Name)
+    Display_Picture=models.TextField()
     Company=models.CharField(max_length= 100)
     Contact_Number= models.CharField(max_length= 15)
     Address=models.CharField(max_length= 375)
@@ -35,10 +38,6 @@ class User(models.Model):
 
 
 class Admin(models.Model):
-    def convert_Image_Name(Instance,Image_Name):
-        extension=Image_Name.split('.')[-1]
-        uuidHex=uuid.uuid4().hex
-        return f'images/{uuidHex}.{extension}'
 
     AdminID=models.OneToOneField(
         Login_Manager,
@@ -46,7 +45,8 @@ class Admin(models.Model):
         primary_key=True,
     )
     adminName=models.CharField(max_length= 100)
-    Display_Picture=models.ImageField(upload_to=convert_Image_Name)
+  #  Display_Picture_Url=models.ImageField(upload_to=convert_Image_Name)
+    Display_Picture=models.TextField()
     Role= models.CharField(max_length= 15)
     Contact_Number= models.CharField(max_length= 15)
     Address=models.CharField(max_length= 375)
@@ -63,7 +63,7 @@ class Department(models.Model):
 
     Department_ID=models.AutoField(primary_key=True)
     Name=models.CharField(max_length= 100)
-    Display_Picture=models.ImageField(upload_to=convert_Image_Name)
+    Display_Url=models.ImageField(upload_to=convert_Image_Name)
     Admin_ID=models.ForeignKey(Admin, on_delete=models.DO_NOTHING)
     Contact_Number_toDisplay= models.CharField(max_length= 15)
     Email_Address=models.CharField(max_length= 100)
@@ -82,13 +82,10 @@ class Test(models.Model):
     TestCreated = models.DateTimeField(auto_now_add=True)
 
 class Test_Images(models.Model):
-    def convert_Image_Name(Instance,Image_Name):
-        extension=Image_Name.split('.')[-1]
-        uuidHex=uuid.uuid4().hex
-        return f'images/{uuidHex}.{extension}'
 
     Test_Images_ID=models.ForeignKey(Test, on_delete=models.CASCADE)
-    Image=models.ImageField(upload_to=convert_Image_Name)
+ #   Image=models.ImageField(upload_to=convert_Image_Name)
+    Image=models.TextField()
 
 class Order(models.Model):
     Order_ID=models.AutoField(primary_key=True)

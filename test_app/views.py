@@ -296,7 +296,7 @@ def SignUp(request):
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             else:
-               return Response(status=status.HTTP_208_ALREADY_REPORTED) 
+               return Response(serializer.data, status=status.HTTP_208_ALREADY_REPORTED) 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # User Table
