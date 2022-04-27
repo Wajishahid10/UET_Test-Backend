@@ -63,7 +63,8 @@ class Department(models.Model):
 
     Department_ID=models.AutoField(primary_key=True)
     Name=models.CharField(max_length= 100)
-    Display_Url=models.ImageField(upload_to=convert_Image_Name)
+    #Display_Url=models.ImageField(upload_to=convert_Image_Name)
+    Display_Picture=models.TextField()
     Admin_ID=models.ForeignKey(Admin, on_delete=models.DO_NOTHING)
     Contact_Number_toDisplay= models.CharField(max_length= 15)
     Email_Address=models.CharField(max_length= 100)
