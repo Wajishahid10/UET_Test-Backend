@@ -193,9 +193,9 @@ def Completed_Order(request):
 
 
 #  Login_Manager Table
-def getAccountTypeFromEmail(request,email):
+def getLoginManagerFromUID(request,uid):
     try:
-        login_Manager=Login_Manager.objects.get(Email_adress=email)
+        login_Manager=Login_Manager.objects.get(GoogleSiginUID=uid)
         serializer=Login_ManagerSerializer(login_Manager)
         json_data= JSONRenderer().render(serializer.data)
         return HttpResponse(json_data, content_type='application/json')
