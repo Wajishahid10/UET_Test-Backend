@@ -86,6 +86,7 @@ DATABASES = {
         'PASSWORD': '80893c2b96b7c40fd728fd72fa6d8fe9913c4bd5148785179e600f96afaa5818',
         'HOST': 'ec2-3-211-228-251.compute-1.amazonaws.com',
         'PORT': '5432',
+        'DISABLE_SERVER_SIDE_CURSORS': True, 
     }
 }
 

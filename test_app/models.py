@@ -56,10 +56,6 @@ class Admin(models.Model):
 AdminRoles_Dict={1:'Admin',2:'Chariman',3:'Instructor',4:'Lab Opertaor'}
 
 class Department(models.Model):
-    def convert_Image_Name(Instance,Image_Name):
-        extension=Image_Name.split('.')[-1]
-        uuidHex=uuid.uuid4().hex
-        return f'images/{uuidHex}.{extension}'
 
     Department_ID=models.AutoField(primary_key=True)
     Name=models.CharField(max_length= 100)
@@ -84,7 +80,8 @@ class Test(models.Model):
 
 class Test_Images(models.Model):
 
-    Test_Images_ID=models.ForeignKey(Test, on_delete=models.CASCADE)
+    Test_Images_ID=models.AutoField(primary_key=True)
+    Test_ID=models.ForeignKey(Test, on_delete=models.CASCADE)
  #   Image=models.ImageField(upload_to=convert_Image_Name)
     Image=models.TextField()
 
@@ -115,16 +112,14 @@ class CompletedOrder(models.Model):
     Status=models.TextField(max_length=15)
     Total_Bill=models.IntegerField()
 
+
 class Result(models.Model):
-    def convert_Image_Name(Instance,Image_Name):
-        extension=Image_Name.split('.')[-1]
-        uuidHex=uuid.uuid4().hex
-        return f'images/{uuidHex}.{extension}'
-        
+    
     Result_ID=models.AutoField(primary_key=True)
     Order_ID=models.ForeignKey(Order, on_delete=models.CASCADE)
     Result=models.CharField(max_length=50)
-    Image=models.ImageField(upload_to=convert_Image_Name)
+    #   Image=models.ImageField(upload_to=convert_Image_Name)models.TextField()
+    Image=models.TextField()
     Details=models.JSONField()
 
 
